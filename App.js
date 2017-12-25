@@ -1,23 +1,32 @@
 import React, { Component } from 'react';
 import {
-  Platform,
-  Text,
+  Dimensions,
+  Image,
+  Vibration,
   View,
 } from 'react-native';
+
 import { GiftedChat } from 'react-native-gifted-chat';
 import { gif, joke, joke2 } from './utils';
 import he from 'he';
 
-const firstName = '';
-const lastName = '非邊緣人';
+const { width, height } = Dimensions.get('window');
+
+const firstName = '非邊';
+const lastName = '緣人';
+const DELAY_TIME = 2000;
+const DURATION = 500;
+
+const avatar = require('./assets/profile.png');
+const background = require('./assets/background.png');
 
 const user = {
   _id: 2,
   name: `${firstName} ${lastName}`,
-  avatar: require('./asset/profile.jpg'),
+  avatar,
 };
 
-export default class Chat extends React.Component {
+export default class Chat extends Component {
   state = {
     messages: [],
   };
@@ -38,7 +47,7 @@ export default class Chat extends React.Component {
   delayResponse(messages) {
     const that = this;
     setTimeout(function() {
-      if (Math.random() < 0.5 || messages[0].text.toLowerCase().indexOf('joke') !== -1) {
+      if (Math.random() < 0.4 || messages[0].text.toLowerCase().indexOf('joke') !== -1) {
         if (Math.random() < 0.5) {
           that.getJoke();
         } else {
@@ -47,7 +56,7 @@ export default class Chat extends React.Component {
       } else {
         that.getGif(messages[0].text);
       }
-    }, Math.random() * 5 * 1000);
+    }, Math.random() * DELAY_TIME);
   }
 
   getJoke() {
@@ -62,6 +71,8 @@ export default class Chat extends React.Component {
             user
           }]),
         }));
+
+        Vibration.vibrate(DURATION);
     });
   }
 
@@ -84,6 +95,8 @@ export default class Chat extends React.Component {
             user
           }]),
         }));
+
+        Vibration.vibrate(DURATION);
       }
     });
   }
@@ -101,6 +114,8 @@ export default class Chat extends React.Component {
             user
           }]),
         }));
+
+        Vibration.vibrate(DURATION);
       }
     });
   }
@@ -116,13 +131,38 @@ export default class Chat extends React.Component {
 
   render() {
     return (
-      <GiftedChat
-        messages={this.state.messages}
-        onSend={(messages) => this.onSend(messages)}
-        user={{
-          _id: 1,
-        }}
-      />
+      <View style={{ flex: 1 }}>
+        <View
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            height: '100%',
+          }}
+        >
+          <Image
+            style={{
+              flex: 1,
+              width,
+              resizeMode: 'cover',
+            }}
+            source={background}
+          />
+        </View>
+        <View style={{
+          flex: 1,
+          justifyContent: 'center',
+          backgroundColor: 'rgba(255,255,255,0.2)',
+        }}>
+          <GiftedChat
+            messages={this.state.messages}
+            onSend={(messages) => this.onSend(messages)}
+            user={{
+              _id: 1,
+            }}
+          />
+        </View>
+      </View>
     );
   }
 

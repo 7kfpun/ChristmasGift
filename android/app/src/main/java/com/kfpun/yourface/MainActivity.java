@@ -1,4 +1,4 @@
-package com.face;
+package com.kfpun.yourface;
 
 import com.facebook.react.ReactActivity;
 

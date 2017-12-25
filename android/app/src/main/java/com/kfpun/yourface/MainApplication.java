@@ -1,7 +1,8 @@
-package com.face;
+package com.kfpun.yourface;
 
 import android.app.Application;
 
+import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.react.ReactApplication;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
@@ -40,6 +41,7 @@ public class MainApplication extends Application implements ReactApplication {
   @Override
   public void onCreate() {
     super.onCreate();
+    Fresco.initialize(this);
     SoLoader.init(this, /* native exopackage */ false);
   }
 }
